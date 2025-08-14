@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Manage Destinations</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f8fbf9;
+      margin: 0;
+      padding: 20px;
+      color: #222;
+    }
+    h2 {
+      font-size: 1.8rem;
+      margin-bottom: 20px;
+      overflow: hidden;
+    }
+    .add-btn {
+      float: right;
+      padding: 8px 14px;
+      background-color: #e5f3ec;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 0.9rem;
+      z-index: 10;
+      position: relative;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background-color: white;
+      border-radius: 10px;
+      overflow: hidden;
+    }
+    th, td {
+      padding: 14px;
+      text-align: left;
+    }
+    th {
+      background-color: #f1f8f4;
+      font-weight: bold;
+      font-size: 0.95rem;
+    }
+    tr:not(:last-child) {
+      border-bottom: 1px solid #e6ece9;
+    }
+    .badge {
+      padding: 4px 10px;
+      border-radius: 12px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      display: inline-block;
+    }
+    .high { background-color: #d4f1db; color: #1b7c33; }
+    .medium { background-color: #fdf4d5; color: #9f7a14; }
+    .low { background-color: #fde0e0; color: #a73333; }
+    a.action {
+      color: #2f855a;
+      text-decoration: none;
+      margin: 0 4px;
+      font-size: 0.9rem;
+    }
+    a.action:hover { text-decoration: underline; }
+
+    /* Popup Styles */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 9999;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0,0,0,0.4);
+    }
+    .modal-content {
+      background-color: #fff;
+      margin: 10% auto;
+      padding: 20px;
+      border-radius: 10px;
+      width: 400px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    }
+    .modal-content h3 { margin-top: 0; }
+    .modal-content label { display: block; margin-top: 10px; font-size: 0.9rem; }
+    .modal-content input, .modal-content select, .modal-content textarea {
+      width: 100%;
+      padding: 8px;
+      margin-top: 4px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 0.9rem;
+      box-sizing: border-box; /* Ensures padding doesn't affect width */
+    }
+    .modal-actions { margin-top: 15px; text-align: right; }
+    .btn {
+      padding: 8px 14px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 0.9rem;
+    }
+    .btn-primary { background-color: #2f855a; color: white; }
+    .btn-secondary { background-color: #ccc; color: #222; margin-right: 8px; }
+  </style>
+</head>
+<body>
+
+<h2>Manage Destinations
+  <button class="add-btn" onclick="openModal()">Add Destination</button>
+</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Kerala Places</th>
+      <th>Safety Level</th>
+      <th>Description</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody id="destinationTableBody">
+    <!-- This part will now be populated by Flask/Jinja2 -->
+    {% for dest in destinations %}
+    <tr data-id="{{ dest.id }}">
+        <td>{{ dest.Name }}</td>
+        <td><span class="badge {{ dest.Safety.lower() }}">{{ dest.Safety }}</span></td>
+        <td>{{ dest.Description }}</td>
+        <td>
+            <a href="#" class="action" onclick="editRow(this)">Edit</a> |
+            <a href="#" class="action" onclick="deleteRow(this)">Delete</a>
+        </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+<!-- Modal -->
+<div id="destinationModal" class="modal">
+  <div class="modal-content">
+    <h3 id="modalTitle">Add Destination</h3>
+    <input type="hidden" id="destinationId"> <!-- Hidden field to store ID for editing -->
+
+    <label for="placeName">Place Name:</label>
+    <input type="text" id="placeName">
+
+    <label for="safetyLevel">Safety Level:</label>
+    <select id="safetyLevel">
+      <option value="High">High</option>
+      <option value="Medium">Medium</option>
+      <option value="Low">Low</option>
+    </select>
+
+    <label for="description">Description:</label>
+    <textarea id="description" rows="3"></textarea>
+
+    <div class="modal-actions">
+      <button class="btn btn-secondary" onclick="closeModal()">Cancel</button>
+      <button class="btn btn-primary" onclick="addOrUpdateDestination()">Save</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// --- MODAL CONTROLS ---
+
+function openModal() {
+  // Reset form for a new entry
+  document.getElementById('modalTitle').innerText = 'Add Destination';
+  document.getElementById('destinationId').value = '';
+  document.getElementById('placeName').value = '';
+  document.getElementById('safetyLevel').value = 'High';
+  document.getElementById('description').value = '';
+  document.getElementById('destinationModal').style.display = 'block';
+}
+
+function closeModal() {
+  document.getElementById('destinationModal').style.display = 'none';
+}
+
+// Close modal when clicking outside
+window.onclick = function(event) {
+  if (event.target == document.getElementById('destinationModal')) {
+    closeModal();
+  }
+}
+
+// --- CRUD OPERATIONS (Create, Read, Update, Delete) ---
+
+function addOrUpdateDestination() {
+  const name = document.getElementById('placeName').value.trim();
+  const safety = document.getElementById('safetyLevel').value;
+  const description = document.getElementById('description').value.trim();
+  const destId = document.getElementById('destinationId').value;
+
+  if (!name || !description) {
+    alert("Please fill all fields.");
+    return;
+  }
+  
+  const isEditing = !!destId;
+  const url = isEditing ? `/admin/edit-destination/${destId}` : '/admin/add-destination';
+  const method = 'POST';
+
+  // Use the Fetch API to send data to the Flask backend
+  fetch(url, {
+    method: method,
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ name, safety, description })
+  })
+  .then(response => {
+    if (!response.ok) {
+        throw new Error('Network response was not ok');
+    }
+    return response.json();
+  })
+  .then(data => {
+    if (data.success) {
+        if (isEditing) {
+            // Update existing row in the table
+            updateTableRow(destId, { name, safety, description });
+        } else {
+            // Add a new row to the table using server data
+            createTableRow(data.destination);
+        }
+        closeModal();
+    } else {
+        alert('Error: ' + data.message);
+    }
+  })
+  .catch(error => {
+    console.error('Error:', error);
+    alert('An error occurred. Please check the console.');
+  });
+}
+
+function editRow(button) {
+  const row = button.closest('tr');
+  const destId = row.dataset.id;
+  const name = row.cells[0].innerText;
+  const safety = row.cells[1].innerText;
+  const description = row.cells[2].innerText;
+
+  // Populate the modal with the row's data
+  document.getElementById('modalTitle').innerText = 'Edit Destination';
+  document.getElementById('destinationId').value = destId;
+  document.getElementById('placeName').value = name;
+  document.getElementById('safetyLevel').value = safety;
+  document.getElementById('description').value = description;
+
+  // Show the modal
+  document.getElementById('destinationModal').style.display = 'block';
+}
+
+function deleteRow(button) {
+  if (!confirm("Are you sure you want to delete this destination?")) {
+    return;
+  }
+  
+  const row = button.closest('tr');
+  const destId = row.dataset.id;
+
+  // Send delete request to the backend
+  fetch(`/admin/delete-destination/${destId}`, {
+    method: 'POST'
+  })
+  .then(response => response.json())
+  .then(data => {
+    if (data.success) {
+      // If backend confirms deletion, remove the row from the page
+      row.remove();
+    } else {
+      alert('Failed to delete the destination.');
+    }
+  })
+  .catch(error => {
+    console.error('Error:', error);
+    alert('An error occurred while deleting.');
+  });
+}
+
+// --- HELPER FUNCTIONS for updating the table dynamically ---
+
+function createTableRow(dest) {
+    const tbody = document.getElementById('destinationTableBody');
+    const row = document.createElement('tr');
+    row.dataset.id = dest.id; // Set the data-id for future edits/deletes
+
+    row.innerHTML = `
+        <td>${dest.name}</td>
+        <td><span class="badge ${dest.safety.toLowerCase()}">${dest.safety}</span></td>
+        <td>${dest.description}</td>
+        <td>
+            <a href="#" class="action" onclick="editRow(this)">Edit</a> |
+            <a href="#" class="action" onclick="deleteRow(this)">Delete</a>
+        </td>
+    `;
+    tbody.appendChild(row);
+}
+
+function updateTableRow(destId, destData) {
+    const row = document.querySelector(`tr[data-id='${destId}']`);
+    if (row) {
+        row.cells[0].innerText = destData.name;
+        row.cells[1].innerHTML = `<span class="badge ${destData.safety.toLowerCase()}">${destData.safety}</span>`;
+        row.cells[2].innerText = destData.description;
+    }
+}
+
+</script>
+
+</body>
+</html>

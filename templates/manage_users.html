@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Safe Route - Manage Users</title>
+  <link rel="stylesheet" href="styles.css"> <!-- Reuse your common CSS -->
+</head>
+<body>
+
+<!-- Sidebar -->
+<!-- <div class="sidebar">
+  <h2>Safe Route</h2>
+  <a href="admin_dashboard.html">🏠 Dashboard</a>
+  <a href="manage_destination.html">📍 Manage Destination</a>
+  <a href="manage_users.html" class="active">👤 Manage Users</a>
+  <div class="logout">← Logout</div>
+</div> -->
+
+<!-- Main Content -->
+<div class="main">
+  <div class="header">
+    <h1>Manage Users</h1>
+    <button onclick="window.location.href='add-user.html'">Add User</button>
+  </div>
+
+  <table class="table">
+    <tr>
+      <th>Name</th>
+      <th>Email</th>
+      <th>Role</th>
+      <th>Status</th>
+      <th>Actions</th>
+    </tr>
+    <!-- Placeholder row for when no users are in the system -->
+    <tr>
+      <td colspan="5" style="text-align:center; color:#6b7280;">
+        No users found. Click "Add User" to create one.
+      </td>
+    </tr>
+  </table>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{% block title %}Safe RouteAI{% endblock %}</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" />
+  <style>
+    /* General Body Styles */
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      margin: 0;
+      background-color: #f9fafb;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+      color: #333;
+    }
+
+    /* Header Styles */
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 2rem;
+      background-color: #fff;
+      border-bottom: 1px solid #e5e7eb;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      font-weight: 700;
+      font-size: 1.5rem;
+      color: #2E4F4F;
+    }
+
+    .logo svg {
+      width: 28px;
+      height: 28px;
+      margin-right: 0.75rem;
+      color: #A7C8A7;
+    }
+
+    .nav-links a {
+      margin-left: 2rem;
+      text-decoration: none;
+      color: #2E4F4F;
+      font-weight: 600;
+      font-size: 1rem;
+    }
+
+    .nav-links a:hover {
+      text-decoration: underline;
+    }
+
+    /* Main Content Area */
+    main {
+      flex: 1; /* Allows the main content to take up available vertical space */
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 3rem 2rem;
+      text-align: center;
+    }
+
+    /* Flash Messages Styling (for consistency) */
+    .flashes {
+        list-style-type: none;
+        padding: 0;
+        margin-bottom: 15px;
+        width: 100%; /* Ensure it spans the width of its parent */
+        max-width: 600px; /* Limit width for better readability */
+        text-align: left;
+    }
+    .flashes li {
+        margin-bottom: 8px;
+        padding: 10px 15px;
+        border-radius: 8px;
+        font-size: 0.95rem;
+    }
+    .flashes .success {
+        background-color: #d4edda;
+        color: #155724;
+        border: 1px solid #c3e6cb;
+    }
+    .flashes .danger {
+        background-color: #f8d7da;
+        color: #721c24;
+        border: 1px solid #f5c6cb;
+    }
+
+    /* Footer Styles */
+    footer {
+      padding: 1.5rem 2rem;
+      background-color: #fff;
+      border-top: 1px solid #e5e7eb;
+      text-align: center;
+      color: #777;
+      font-size: 0.9rem;
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header>
+    <div class="logo">
+      <svg viewBox="0 0 48 48" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+        <path fill-rule="evenodd" clip-rule="evenodd" d="M24 4H42V17.3333V30.6667H24V44H6V30.6667V17.3333H24V4Z" />
+      </svg>
+      Safe RouteAI
+    </div>
+    <div class="nav-links">
+      <a href="{{ url_for('landing') }}">Home</a>
+      <a href="{{ url_for('auth.login') }}">Login</a>
+      <a href="{{ url_for('auth.signup') }}">Sign Up</a>
+    </div>
+  </header>
+
+  <!-- Main Content Block -->
+  <main>
+    <!-- Flask Flash Messages will be displayed here, above the main content of each page -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        <ul class="flashes">
+          {% for category, message in messages %}
+            <li class="{{ category }}">{{ message }}</li>
+          {% endfor %}
+        </ul>
+      {% endif %}
+    {% endwith %}
+
+    {% block content %}
+    <!-- Content from child templates will be inserted here -->
+    {% endblock %}
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    &copy; 2025 Safe RouteAI. All rights reserved.
+  </footer>
+</body>
+</html>

@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+
+{% block title %}Safe RouteAI{% endblock %}
+
+{% block content %}
+<section class="hero">
+  <h1>SAFE ROUTEAI</h1>
+  <p>Plan your journeys with AI-powered safety and smart routing.</p>
+  <a href="{{ url_for('auth.login') }}" class="btn">GET STARTED</a>
+</section>
+
+<style>
+  body {
+    margin: 0;
+    font-family: 'Arial', sans-serif;
+    background: linear-gradient(135deg, #d6f5e3, #b2e0c9);
+    color: #1a3d2f;
+    height: 100vh;
+  }
+
+  .hero {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 0 1rem;
+  }
+
+  .hero h1 {
+    font-size: 2.5rem;
+    letter-spacing: 4px;
+    margin-bottom: 1rem;
+    color: #1a3d2f;
+  }
+
+  .hero p {
+    max-width: 500px;
+    font-size: 1.1rem;
+    margin-bottom: 2rem;
+    color: #2e5d4f;
+  }
+
+  .btn {
+    display: inline-block;
+    padding: 0.75rem 2rem;
+    border: 2px solid #1a3d2f;
+    color: #1a3d2f;
+    text-decoration: none;
+    border-radius: 30px;
+    font-weight: bold;
+    transition: all 0.3s ease;
+    background: transparent;
+  }
+
+  .btn:hover {
+    background: #1a3d2f;
+    color: white;
+  }
+</style>
+{% endblock %}

@@ -1,0 +1,96 @@
+{% extends "base.html" %}
+
+{% block title %}Safe RouteAI - Register{% endblock %}
+
+{% block content %}
+<style>
+  /* You can place the specific styles for the signup form here */
+  .register-container {
+    background: white;
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    width: 400px; /* Increased width for better layout */
+    text-align: center;
+  }
+
+  .register-container h2 {
+    color: #2E4F4F;
+    margin-bottom: 10px;
+  }
+
+  .register-container p {
+    color: #555;
+    margin-bottom: 25px;
+  }
+  
+  .register-container .logo {
+      font-size: 24px;
+      font-weight: bold;
+      color: #2E4F4F;
+      margin-bottom: 20px;
+  }
+
+  .register-container input,
+  .register-container select {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px; /* Consistent margin */
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 14px;
+  }
+
+  .register-container button {
+    width: 100%;
+    padding: 12px;
+    background: #2E4F4F;
+    color: white;
+    font-size: 16px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+  }
+  .register-container button:hover { background: #1d3d3d; }
+
+  .register-container .links {
+    margin-top: 15px;
+    font-size: 14px;
+  }
+  .register-container .links a {
+    color: #2E4F4F;
+    text-decoration: none;
+    font-weight: bold;
+  }
+  .register-container .links a:hover { text-decoration: underline; }
+
+</style>
+
+<div class="register-container">
+  <div class="logo">Safe RouteAI</div>
+  <h2>Register</h2>
+  <p>Create your account to start planning safe trips</p>
+
+  <!-- The form remains the same -->
+  <form method="post" action="{{ url_for('auth.signup') }}">
+    <input type="text" name="fullname" placeholder="Full Name" required>
+    <input type="email" name="email" placeholder="Email Address" required>
+    <input type="text" name="username" placeholder="Username" required>
+    <input type="password" name="password" placeholder="Password" required>
+    <input type="password" name="confirm_password" placeholder="Confirm Password" required>
+
+    <select name="role" required>
+      <option value="" disabled selected>Select Role</option>
+      <option value="user">User</option>
+      <option value="admin">Admin</option>
+    </select>
+
+    <button type="submit">Register</button>
+  </form>
+
+  <div class="links">
+    <p>Already have an account? <a href="{{ url_for('auth.login') }}">Login</a></p>
+  </div>
+</div>
+{% endblock %}

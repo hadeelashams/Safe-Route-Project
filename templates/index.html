@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SafeRoute – Home</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" />
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      margin: 0;
+      background-color: #f9fafb;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 2rem;
+      background-color: #fff;
+      border-bottom: 1px solid #e5e7eb;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      font-weight: 600;
+      font-size: 1.1rem;
+      color: #111827;
+    }
+
+    .logo svg {
+      width: 20px;
+      height: 20px;
+      margin-right: 0.5rem;
+    }
+
+    .signup-btn {
+      background-color: #e5e7eb;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    main {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 2rem;
+    }
+
+    .login-box {
+      background-color: #fff;
+      padding: 2rem;
+      border-radius: 12px;
+      width: 100%;
+      max-width: 400px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.03);
+    }
+
+    .login-box h2 {
+      text-align: center;
+      font-size: 24px;
+      font-weight: 700;
+      color: #111827;
+      margin-bottom: 1.5rem;
+    }
+
+    .form-group {
+      margin-bottom: 1.25rem;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 0.5rem;
+      color: #111827;
+      font-weight: 500;
+    }
+
+    input[type="text"],
+    input[type="password"] {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #d1d5db;
+      border-radius: 8px;
+      font-size: 1rem;
+      color: #111827;
+    }
+
+    input::placeholder {
+      color: #9ca3af;
+    }
+
+    .remember {
+      display: flex;
+      align-items: center;
+      font-size: 0.9rem;
+      color: #111827;
+      margin-bottom: 1rem;
+    }
+
+    .remember input {
+      margin-right: 0.5rem;
+    }
+
+    .login-btn {
+      width: 100%;
+      padding: 12px;
+      background-color: #bfdbfe;
+      color: #111827;
+      font-weight: 600;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    .links {
+      margin-top: 1rem;
+      text-align: center;
+      font-size: 0.9rem;
+    }
+
+    .links a {
+      display: block;
+      color: #2563eb;
+      text-decoration: underline;
+      margin-top: 4px;
+      
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header>
+    <div class="logo">
+      <svg viewBox="0 0 48 48" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+        <path fill-rule="evenodd" clip-rule="evenodd" d="M24 4H42V17.3333V30.6667H24V44H6V30.6667V17.3333H24V4Z" />
+      </svg>
+      SafeRoute
+    </div>
+    <button class="signup-btn" onclick="window.location.href='/signup'">Sign Up</button>
+  </header>
+
+  <!-- Main Content -->
+  <main>
+    <div class="login-box">
+      <h2>Welcome Back</h2>
+      <form>
+        <div class="form-group">
+          <label for="email">Username or Email</label>
+          <input type="text" id="email" placeholder="Enter your username or email" />
+        </div>
+
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input type="password" id="password" placeholder="Enter your password" />
+        </div>
+
+        <div class="remember">
+          <input type="checkbox" id="remember" />
+          <label for="remember">Remember Me</label>
+        </div>
+
+        <button type="submit" class="login-btn">Log In</button>
+
+        <div class="links">
+          <a href="#">Forgot Password?</a>
+          <a href="#">Don't have an account? Sign up</a>
+        </div>
+      </form>
+    </div>
+  </main>
+</body>
+</html>
+
+ 
